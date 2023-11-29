@@ -1,14 +1,11 @@
-import { initializeApp } from "firebase-admin/app";
+import { initializeApp, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-//import { creds } from "./creds.js";
+import { secretKey } from "../creds.js";
 
 initializeApp({
-    
+    credential: cert(secretKey),
 
 });
-
-
-
 
 
 export const db = getFirestore();

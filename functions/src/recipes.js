@@ -5,7 +5,7 @@ const coll = db.collection('recipes');
 
 export async function createRecipe(res, req) {
 let newRecipe = req.body;
-//add user ID to the recipe
+
 newRecipe.userId = req.locals.id;
 
 await coll.add(newRecipe);
