@@ -1,10 +1,31 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { db } from "./dbConnect.js";
-import { secretKey } from "./creds.js";
+import { secretKey,key } from "../creds.js";
+
+
+
+  
+
 
 const coll = db.collection('users');
 
+export async function SignupForm(req, res) {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password || email.length < 6 || password.length < 6) {
+            res.status(400).send({ message: 'Invalid user' });
+            return;
+        }
+    
+        const hashedPw = await bcrypt.hash(password, 10);
+        await coll.add({ email: email.toLowerCase(), password: hashedPw });
+        await login(req, res);
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).send({ message: 'Server Error' });
+    }
+}
 export async function createUser(req, res) {
     try {
         const { email, password } = req.body;
@@ -36,7 +57,7 @@ export async function login(req, res) {
 
         delete user.password;
 
-        const token = jwt.sign(user, secretKey);
+        const token = jwt.sign(user, key);
         res.send({ token });
     } catch (error) {
         console.error('Error logging in:', error);

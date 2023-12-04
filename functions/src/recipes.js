@@ -1,7 +1,10 @@
 import { db } from "./dbConnect.js"
 
 
-const coll = db.collection('recipes-building');
+
+const coll = db.collection('recipe-building');
+
+
 
 export async function createRecipe(res, req) {
     let newRecipe = req.body;
@@ -19,4 +22,24 @@ export async function getAllRecipes(req, res) {
     res.send(recipes);
 
 }
+ 
+export async function commentRecipe (req, res) {
 
+    const recipeId = req.body.recipeId
+    const comment = req.body.comment
+    const user = req.body.user 
+    const recipeRef = db.collection('recipe-building').doc(recipeId)
+    const recipe = recipeRef.get()
+    const commentobject = { user, comment }
+    const comments = recipe.comments?[... recipe.comments, commentobject]:[commentobject]
+     await recipeRef.update({comments: comments});
+
+    return(
+
+        res.send(200)
+
+
+    )
+
+
+}

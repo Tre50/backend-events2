@@ -1,6 +1,6 @@
-import pkg from 'jsonwebtoken';
+//import pkg from 'jsonwebtoken';
 import { secretKey } from "../creds.js";
-const { decoded, jwt } = pkg;
+
 
 export async function isAuthenticated(req, res, next) {
     //FIRST CHECK IF THEY HAVE TOKEN:
@@ -10,14 +10,14 @@ export async function isAuthenticated(req, res, next) {
     return;  
     }
     //THEN CHECK IF TOKEN VALID:
-    jwt.verify(authorization, secretKey, (err, decoded) => {
+    const decodedToken = jwt.verify(authorization, secretKey, (err, decoded) => {
     if(err) {
             res.status(401).send(err);
             return;
     }
     // ATTACH OUR DECODED TOKEN TO THE REQUEST...
     //IF SO GO ON:
-    req.locals = decoded;
+    req.locals = decodedToken;
     next();
 
    

@@ -2,12 +2,10 @@
 import { onRequest } from "firebase-functions/v2/https";
 import express from "express";
 import cors from "cors";
-import { getAllRecipes, createRecipe } from "./src/recipes.js";
-import { isAuthenticated } from "./src/middleware.js";
+import { getAllRecipes, createRecipe, commentRecipe } from "./src/recipes.js";
+import { SignupForm, createUser } from "./src/users.js";
 
-//import { createUser, login } from "./src/users.js";
 
-//import { isAuthenticated } from "./src/middleware.js";
 
 const app = express();
 app.use(cors());
@@ -20,5 +18,12 @@ app.get('/recipe', getAllRecipes);
 
 app.post('/recipe', createRecipe);
 app.patch('/recipe', createRecipe);
+app.post('/SignupForm', SignupForm)
+app.post('/addComment', commentRecipe)
+app.post('/adduser',createUser)
 
-export const api = onRequest(app);
+// export const api = onRequest(app)
+
+app.listen(8080 , ()=>{
+    console.log('listening..')
+})
