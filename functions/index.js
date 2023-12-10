@@ -2,7 +2,7 @@
 import { onRequest } from "firebase-functions/v2/https";
 import express from "express";
 import cors from "cors";
-import { getAllRecipes, createRecipe, commentRecipe } from "./src/recipes.js";
+import { getAllRecipes, createRecipe, commentRecipe, findRecipe } from "./src/recipes.js";
 import { SignupForm, createUser } from "./src/users.js";
 
 
@@ -18,12 +18,11 @@ app.get('/recipe', getAllRecipes);
 
 app.post('/recipe', createRecipe);
 app.patch('/recipe', createRecipe);
-app.post('/SignupForm', SignupForm)
+//app.post('/SignupForm', SignupForm)
 app.post('/addComment', commentRecipe)
 app.post('/adduser',createUser)
+app.post('/forum', createRecipe )
+app.post('/findRecipe',findRecipe)
 
-// export const api = onRequest(app)
 
-app.listen(8080 , ()=>{
-    console.log('listening..')
-})
+export const api = onRequest(app)

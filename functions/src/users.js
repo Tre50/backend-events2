@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs/dist/bcrypt.js";
 import { db } from "./dbConnect.js";
 import { secretKey,key } from "../creds.js";
 
