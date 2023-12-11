@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import { db } from "./dbConnect.js";
-import { secretKey,key } from "../creds.js";
+import { key } from "../creds.js";
 
 
 
@@ -10,6 +10,8 @@ import { secretKey,key } from "../creds.js";
 
 const coll = db.collection('users');
 
+//user signup that gets email/paswword from authentication and stores it in my DB 
+//Im using try/catch if any errors occur should be caught 
 export async function SignupForm(req, res) {
     try {
         const { email, password } = req.body;
@@ -26,7 +28,7 @@ export async function SignupForm(req, res) {
         res.status(500).send({ message: 'Server Error' });
     }
 }
-export async function createUser(req, res) {
+export async function createUser(req, res) { //this creates users and checks their email/password properties
     try {
         const { email, password } = req.body;
         if (!email || !password || email.length < 6 || password.length < 6) {
@@ -43,7 +45,7 @@ export async function createUser(req, res) {
     }
 }
 
-export async function login(req, res) {
+export async function login(req, res) { //this is my user login 'GETS' email/password and looks for user in DB
     try {
         const { email, password } = req.body;
         const userCol = await coll.where('email', '==', email.toLowerCase()).get();

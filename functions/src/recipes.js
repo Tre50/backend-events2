@@ -8,19 +8,19 @@ const coll = db.collection('recipe-building');
 
 export async function createRecipe(req, res) {
 
-    let newRecipe = req.body;
     // newRecipe.userId = req.locals.id;
+    let newRecipe = req.body;
     await coll.add(newRecipe);
-    //must send back updated list of recipes
+    //must send back updated list of recipes 
     getAllRecipes(req, res);
 }
-
+//this gets each document and determines which id is being requested
 export async function getAllRecipes(req, res) {
     const recipeColl = await coll.get();
     const recipes = recipeColl.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     res.send(recipes);
 }
-
+// this filters recipes based on the a query then checks if query exist and matches it to the ID then sends results in an array
 export async function findRecipe(req,res) {
     const recipeColl = await coll.get();
     let recipes = recipeColl.docs.map(doc => ({ id: doc.id, ...doc.data() }));
